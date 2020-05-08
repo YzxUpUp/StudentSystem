@@ -1,0 +1,50 @@
+案例：学生信息管理系统 1.0
+    需求：学生信息的增删改查操作
+    设计：
+        1、技术选型：Servlet+JSP+MySql+JDBCTemplate+Druid+BeanUtils+Tomcat
+        2、数据库设计：
+            create database StudentManagementSystem; //创建数据库
+            use StudentManagementSystem; //使用数据库
+            create table student( //创建表
+            	sno int primary key,
+                sname varchar(20) not null,
+                ssex varchar(5),
+                sage int,
+                saddress varchar(32),
+                sqq varchar(20),
+                semail varchar(50)
+            );
+
+            create table user(
+                username varchar(20) not null,
+                password varchar(20) not null
+            );
+        3、环境搭建：
+            数据库环境：MySql
+            IDE环境：导入jar包
+
+    1、简单功能
+        1、全部信息查询（✔）
+        2、登录，老师可以查看所有信息，管理员可以查看并修改所有信息（✔）
+        3、注册，验证码，表单校验（用户名6-10位，密码8-12位，两次输入密码一致）（✔）
+        4、添加，验证码，判断学号是否重复（✔）
+        5、删除，确认提示框（✔）
+        6、修改，数据回显（✔）
+    2、复杂功能
+        1、删除选中，确认提示框（✔）
+        2、分页查询，最前页、最后页锁定（✔）
+        3、复杂条件查询，数据回显，分页查询（）
+
+    update01：（✔）
+        使用Filter过滤器，实现功能：
+            当用户访问时，判断是否已经登录
+                没有登录：跳转到登录页面进行登录
+                已经登录：可以正常访问
+        分析实现：在设计时，若登录成功会使用request共享一个user对象给index.jsp，用于区别管理员or其他账户的登录，
+        所以只需设置一个过滤器，判断request对象内是否有共享数据，同时需要放行所有与登录有关的资源，因为本来就是登录操作
+
+    update02:（✔）
+        过滤敏感词，实现功能：
+            当用户输入敏感词汇时，自动替换成*
+        分析实现：使用动态代理模式，增强request，放行时使用代理request对象，此时新的request内数据已经进行了敏感词过滤
+
